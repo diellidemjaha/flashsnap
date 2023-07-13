@@ -1,5 +1,6 @@
 <?php
 require_once 'database.php';
+session_start();
 
 // Assuming you have a MySQL connection established already
 $db = new Database('localhost', 'diellidemjaha', '33-Tea-rks@', 'flashsnapdbreal');
@@ -35,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Retrieve and process the uploaded image file
     $imageFile = $_FILES['photo']['tmp_name'];
-    $imagePath = 'path/to/store/images/' . $_FILES['photo']['name'];
+    $imagePath = 'flashsnaps/' . $_FILES['photo']['name'];
     move_uploaded_file($imageFile, $imagePath);
 
     // Insert the photo information into the database
@@ -47,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Redirect the user to the voting page
-    header("Location: vote.php");
+    header("Location: profile.php");
     exit;
 }
 ?>

@@ -17,6 +17,30 @@ if (!$deleteResult) {
     die("Deletion failed: " . mysqli_error($connection));
 }
 
+if ($deleteResult) {
+    echo "Expired subjects deleted successfully.";
+
+    // Reset vote counts for all users
+    $resetVoteCountQuery = "UPDATE users SET vote_count = 0";
+    $resetVoteCountResult = mysqli_query($connection, $resetVoteCountQuery);
+
+    if ($resetVoteCountResult) {
+        echo "Vote counts reset to 0 for all users.";
+    } else {
+        echo "Failed to reset vote counts: " . mysqli_error($connection);
+    }
+} else {
+    echo "Failed to delete expired subjects: " . mysqli_error($connection);
+}
+
 $deletedRowCount = mysqli_affected_rows($connection);
 echo "Deleted $deletedRowCount expired subject(s).";
+?>
+
+<?php
+
+// Fetch the expired subjects
+
+
+
 ?>
