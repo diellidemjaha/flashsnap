@@ -4,6 +4,10 @@ require_once 'database.php';
 require_once 'user.php';
 require_once 'validate.php';
 
+
+define("SAVED_DIRECTORY", "gallery/");
+// C:\xampp\tmp
+
 $db = new Database('localhost', 'diellidemjaha', '33-Tea-rks@', 'flashsnapdbreal');
 $db->connect();
 $connection = $db->getConnection();
@@ -14,9 +18,13 @@ $validator = new Validator($db);
 $username = $_POST['username'];
 $email = $_POST['email'];
 $password = $_POST['password'];
-$profilePic = $_FILES['profile_pic']['tmp_name'];
-$profilePicPath = 'profile_pic/' . $_FILES['profile_pic']['name'];
-    move_uploaded_file($imageFile, $profilePicPath);
+$uploaded_file_tmp  = $_FILES['profile_pic']['tmp_name'];
+$name = $_FILES["profile_pic"]["name"];
+$saved_file_name = $name;
+// $res = move_uploaded_file($profilePic, "$profilePicPath/$name");
+move_uploaded_file($uploaded_file_tmp, SAVED_DIRECTORY . $saved_file_name);
+
+
 $createdAt = $_POST['created_at'];
 
 if ($validator->validateSignup($username, $email, $password, $profilePicPath, $createdAt)) {
