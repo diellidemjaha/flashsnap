@@ -31,18 +31,22 @@ if (!$result) {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Ranking</h1>
-    <table>
-        <tr>
-            <th>Image</th>
-            <th>Vote Count</th>
-        </tr>
-        <?php while ($photo = mysqli_fetch_assoc($result)) { ?>
+    <div class="rank">
+
+
+        <h1>Ranking</h1>
+        <table>
             <tr>
-                <td><img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($photo['image']); ?>" /> </td>
-                <td><?php echo $photo['vote_count']; ?></td>
+                <th>Image</th>
+                <th>Vote Count</th>
             </tr>
-        <?php } ?>
-    </table>
+            <?php while ($photo = mysqli_fetch_assoc($result)) { ?>
+                <tr>
+                    <td><img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($photo['image']); ?>" /> </td>
+                    <td><?php echo $photo['vote_count']; ?></td>
+                </tr>
+            <?php } ?>
+        </table>
+    </div>
 </body>
 </html>

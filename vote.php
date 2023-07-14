@@ -26,6 +26,7 @@ $voteCountData = mysqli_fetch_assoc($voteCountResult);
 $voteCount = $voteCountData['vote_count'];
 
 if ($voteCount >= 10) {
+    echo "<a href='profile.php'>Go to Your Profile</a><br> \n";
     die("You have reached the maximum limit of 10 votes.");
 }
 
@@ -44,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Increase the vote count for the user
     $voteCount++;
     if ($voteCount >= 10) {
+        echo "<a href='profile.php'>Go to Your Profile</a><br> \n";
         die("You have reached the maximum limit of 10 votes.");
     }
 

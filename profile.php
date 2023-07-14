@@ -63,23 +63,29 @@ if (!$photoResult) {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Welcome, <?php echo $user['username']; ?></h1>
-    <img width="100" height="auto" src="<?php echo $user['profile_pic']; ?>" alt="Profile Picture">
-    <h2>Your Photos</h2>
-    <?php while ($photo = mysqli_fetch_assoc($photoResult)) { ?>
-        <div>
-        <!-- <img height="auto" src="data:image/jpeg;base64,'. base64_encode($row['profile_pic']) .'"/> -->
-        <img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($photo['image']); ?>" /> 
-            <p>Subject: <?php echo isset($photo['contest_subject']) ? $photo['contest_subject'] : 'N/A'; ?></p>
+    <div class="profile">
 
-        </div>
-    <?php } ?>
-    <h2>Navigation</h2>
-    <ul>
-        <li><a href="profile.php">Profile</a></li>
-        <li><a href="upload_photo.php">Submit a Flashsnap</a>
-        <li><a href="vote.php">Vote</a></li>
-        <li><a href="rank.php">Rank</a></li>
-    </ul>
+
+        <h1>Welcome, <?php echo $user['username']; ?></h1>
+        <img width="100" height="auto" src="<?php echo $user['profile_pic']; ?>" alt="Profile Picture">
+        <h2>Your Photos</h2>
+        <?php while ($photo = mysqli_fetch_assoc($photoResult)) { ?>
+            <div>
+            <!-- <img height="auto" src="data:image/jpeg;base64,'. base64_encode($row['profile_pic']) .'"/> -->
+            <img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($photo['image']); ?>" /> 
+                <p>Subject: <?php echo isset($photo['contest_subject']) ? $photo['contest_subject'] : 'N/A'; ?></p>
+    
+            </div>
+        <?php } ?>
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="profile.php">Profile</a></li>
+            <li><a href="upload_photo.php">Submit a Flashsnap</a>
+            <li><a href="vote.php">Vote</a></li>
+            <li><a href="rank.php">Rank</a></li>
+        </ul>
+        <form action="logout.php" method="post">
+        <button type="submit">Logout</button>
+    </div>
 </body>
 </html>

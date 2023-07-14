@@ -74,13 +74,28 @@ body {
   
   /* Styles for the rank page */
   .rank {
-    max-width: 800px;
+    width: 100%;
     margin: 100px auto;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
-  
+  .rank img{
+    min-width: 500px;
+    max-width: 500px;
+  }
+  @media only screen and (max-width: 600px) {
+    .rank img{
+      min-width: 200px;
+      max-width: 200px;
+    }
+    .rank {
+      width: 100%;
+      margin: 100px auto;
+      padding:10px;
+    }
+  }
+    
   .rank h1 {
     text-align: center;
     color: #333;
