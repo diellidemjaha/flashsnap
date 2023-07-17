@@ -31,12 +31,12 @@ session_start();
     } else {
         ?>
 
-<h1>Welcome to FlashSnap</h1>
+<h1>Welcome to Flash Time</h1>
 <h2>Login</h2>
 <form action="login.php" method="POST">
     <input type="email" name="email" placeholder="Email" required><br>
     <input type="password" name="password" placeholder="Password" required><br>
-    <input type="submit" value="Login">
+    <input type="submit" class="submit-button" value="Login">
 </form>
 <h2>Sign Up</h2>
 <form action="signup.php" method="POST" enctype="multipart/form-data">
@@ -45,7 +45,7 @@ session_start();
     <input type="password" name="password" placeholder="Password" required><br>
     <input type="file" name="profile_pic" required><br>
     <input type="hidden" name="created_at" value="<?php echo date('Y-m-d H:i:s'); ?>">
-    <input type="submit" value="Sign Up">
+    <br><br><input type="submit" class="submit-button" value="Sign Up">
 </form>
 <?php } ?>
     </center>

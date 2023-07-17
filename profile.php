@@ -59,7 +59,7 @@ if (!$photoResult) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>FlashSnap Profile</title>
+    <title>Flash Time Profile</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -80,7 +80,7 @@ if (!$photoResult) {
         <h2>Navigation</h2>
         <ul>
             <li><a href="profile.php">Profile</a></li>
-            <li><a href="upload_photo.php">Submit a Flashsnap</a>
+            <li><a href="upload_photo.php">Submit a Flash Time</a>
             <li><a href="vote.php">Vote</a></li>
             <li><a href="rank.php">Rank</a></li>
         </ul>

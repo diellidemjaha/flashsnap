@@ -171,3 +171,17 @@ body {
     padding: 10px 20px;
     cursor: pointer;
   }
+
+  .submit-button {
+    background-color: #333; /* Set your desired background color */
+    color: white; /* Set your desired text color */
+    padding: 10px 20px; /* Adjust padding as needed */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add border radius for rounded corners */
+    cursor: pointer; /* Add pointer cursor */
+    font-size: 16px; /* Set font size */
+}
+
+.submit-button:hover {
+    background-color: #333; /* Set your desired hover background color */
+}

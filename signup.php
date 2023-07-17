@@ -27,8 +27,8 @@ move_uploaded_file($uploaded_file_tmp, SAVED_DIRECTORY . $saved_file_name);
 
 $createdAt = $_POST['created_at'];
 
-if ($validator->validateSignup($username, $email, $password, $profilePicPath, $createdAt)) {
-    $userID = $user->signup($username, $email, $password, $profilePicPath, $createdAt);
+if ($validator->validateSignup($username, $email, $password, $uploaded_file_tmp, $createdAt)) {
+    $userID = $user->signup($username, $email, $password, $uploaded_file_tmp, $createdAt);
     if ($userID) {
         session_start();
         $_SESSION['user_id'] = $userID;
