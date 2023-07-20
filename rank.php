@@ -42,7 +42,7 @@ if (!$result) {
             </tr>
             <?php while ($photo = mysqli_fetch_assoc($result)) { ?>
                 <tr>
-                    <td><img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($photo['image']); ?>" /> </td>
+                <td><img src="<?php echo $photo['image']; ?>" /> </td>
                     <td><?php echo $photo['vote_count']; ?></td>
                 </tr>
             <?php } ?>

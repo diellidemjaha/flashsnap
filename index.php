@@ -19,7 +19,7 @@ session_start();
 
 <html>
 <head>
-    <title>Welcome to FlashSnap</title>
+    <title>Welcome to Flash Time</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>

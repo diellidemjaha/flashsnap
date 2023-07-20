@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             while ($photo = mysqli_fetch_assoc($photosResult)) {
                 ?>
                 <div>
-                <img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($photo['image']); ?>" /> 
+                <img src="<?php echo $photo['image']; ?>" /> 
                     <form method="POST">
                         <input type="hidden" name="photo_id" value="<?php echo $photo['id']; ?>">
                         <button type="submit">Vote</button>

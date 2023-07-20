@@ -1,12 +1,15 @@
-<!-- signup.php -->
 <?php
+
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'database.php';
 require_once 'user.php';
 require_once 'validate.php';
 
-
 define("SAVED_DIRECTORY", "gallery/");
-// C:\xampp\tmp
 
 $db = new Database('localhost', 'diellidemjaha', '33-Tea-rks@', 'flashsnapdbreal');
 $db->connect();
@@ -18,24 +21,41 @@ $validator = new Validator($db);
 $username = $_POST['username'];
 $email = $_POST['email'];
 $password = $_POST['password'];
-$uploaded_file_tmp  = $_FILES['profile_pic']['tmp_name'];
-$name = $_FILES["profile_pic"]["name"];
-$saved_file_name = $name;
-// $res = move_uploaded_file($profilePic, "$profilePicPath/$name");
-move_uploaded_file($uploaded_file_tmp, SAVED_DIRECTORY . $saved_file_name);
-
+$profilePic = $_FILES['profile_pic'];
 
 $createdAt = $_POST['created_at'];
 
-if ($validator->validateSignup($username, $email, $password, $uploaded_file_tmp, $createdAt)) {
-    $userID = $user->signup($username, $email, $password, $uploaded_file_tmp, $createdAt);
-    if ($userID) {
-        session_start();
-        $_SESSION['user_id'] = $userID;
-        header("Location: profile.php");
-        exit();
+if ($validator->validateSignup($username, $email, $password, $profilePic, $createdAt)) {
+    echo "Validation passed.<br>";
+
+    $extension = pathinfo($_FILES['profile_pic']['name'], PATHINFO_EXTENSION);
+    $newFilename = $username . '_' . time() . '.' . $extension;
+    $destination = SAVED_DIRECTORY . $newFilename;
+
+    if (move_uploaded_file($_FILES['profile_pic']['tmp_name'], $destination)) {
+        echo "File uploaded successfully.<br>";
+        try {
+            $userID = $user->signup($username, $email, $password, $newFilename, $createdAt);
+            if ($userID) {
+                echo "User created successfully.<br>";
+                session_start();
+                $_SESSION['user_id'] = $userID;
+                $_SESSION['profile_pic'] = $newFilename; // Store the new profile pic filename in session
+                header("Location: profile.php");
+                exit();
+            } else {
+                echo "Error creating user.<br>";
+            }
+        } catch (Exception $e) {
+            echo "Error creating user: " . $e->getMessage() . "<br>";
+        }
+    } else {
+        echo "Error uploading profile picture.<br>";
+    }
+} else {
+    echo "Invalid signup details. The following errors were encountered:<br>";
+    foreach ($validator->getErrors() as $error) {
+        echo $error . "<br>";
     }
 }
-
-echo "Invalid signup details.";
 ?>

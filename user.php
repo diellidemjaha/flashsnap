@@ -25,17 +25,82 @@ class User {
 
     public function signup($username, $email, $password, $profilePic, $createdAt) {
         $connection = $this->db->getConnection();
-
+    
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        $destination = $_FILES['profile_pic']['name'];
-        move_uploaded_file($profilePic, $destination);
-
-        $query = "INSERT INTO users (username, email, password, profile_pic, created_at) VALUES ('$username', '$email', '$hashedPassword', '$destination', '$createdAt')";
-        mysqli_query($connection, $query);
-
-        return mysqli_insert_id($connection);
+    
+        $query = "INSERT INTO users (username, email, password, profile_pic, created_at) VALUES ('$username', '$email', '$hashedPassword', '$profilePic', '$createdAt')";
+        $result = mysqli_query($connection, $query);
+    
+        if (!$result) {
+            throw new Exception("Error creating user: " . mysqli_error($connection));
+        } else {
+            return mysqli_insert_id($connection); // Return the new user ID
+        }
     }
+
+    // public function signup($username, $email, $password, $profilePic, $createdAt) {
+    //     $connection = $this->db->getConnection();
+    
+    //     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    
+    //     $query = "INSERT INTO users (username, email, password, profile_pic, created_at) VALUES (?, ?, ?, ?, ?)";
+    
+    //     $statement = $connection->prepare($query);
+    //     $statement->bind_param("sssss", $username, $email, $hashedPassword, $profilePic, $createdAt);
+        
+    //     if ($statement->execute()) {
+    //         $userID = $statement->insert_id;
+    //         $statement->close();
+    //         return $userID;
+    //     } else {
+    //         $statement->close();
+    //         return false;
+    //     }
+    // }
+    
+    // Updating Profile functions
+    public function updateUsername($userID, $newUsername) {
+        $connection = $this->db->getConnection();
+
+        $query = "UPDATE users SET username = '$newUsername' WHERE id = '$userID'";
+        mysqli_query($connection, $query);
+    }
+
+    public function updatePassword($userID, $newPassword) {
+        $connection = $this->db->getConnection();
+
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+        $query = "UPDATE users SET password = '$hashedPassword' WHERE id = '$userID'";
+        mysqli_query($connection, $query);
+    }
+
+    public function updateProfilePic($userID, $newProfilePic) {
+        $connection = $this->db->getConnection();
+
+        $extension = pathinfo($newProfilePic, PATHINFO_EXTENSION);
+        $newFilename = $userID . '_' . time() . '.' . $extension;
+        $destination = 'gallery/' . $newFilename;
+        move_uploaded_file($_FILES['new_profile_pic']['tmp_name'], $destination);
+        
+        $query = "UPDATE users SET profile_pic = '$newFilename' WHERE id = '$userID'";
+        mysqli_query($connection, $query);
+    }
+
+    public function getProfilePicFilename($userID) {
+        $connection = $this->db->getConnection();
+
+        $query = "SELECT profile_pic FROM users WHERE id = '$userID'";
+        $result = mysqli_query($connection, $query);
+
+        if (!$result) {
+            die("Query failed: " . mysqli_error($connection));
+        }
+
+        $userData = mysqli_fetch_assoc($result);
+        return $userData['profile_pic'];
+    }
+
 }
 
 ?>
