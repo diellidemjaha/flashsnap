@@ -34,10 +34,10 @@ if (!$result) {
     <div class="rank">
 
 
-        <h1>Ranking</h1>
+        <h1>Flash Time Ranking</h1>
         <table>
             <tr>
-                <th>Image</th>
+                <th>Photo</th>
                 <th>Vote Count</th>
             </tr>
             <?php while ($photo = mysqli_fetch_assoc($result)) { ?>

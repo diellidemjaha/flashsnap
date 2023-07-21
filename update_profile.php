@@ -30,8 +30,12 @@ if (isset($_POST['submit'])) {
         // Update the user's profile
         $user->updateUsername($userID, $newUsername);
         $user->updatePassword($userID, $newPassword);
-        $user->updateProfilePic($userID, $newFilename);
-
+        // $user->updateProfilePic($userID, $newFilename);
+        if ($newProfilePic !== '') {
+            $user->updateProfilePic($userID, $newFilename);
+            // Store the new profile pic filename in session
+            $_SESSION['profile_pic'] = $newFilename;
+        }
         // Store the new profile pic filename in session
         $_SESSION['profile_pic'] = $newFilename;
 

@@ -18,19 +18,20 @@ $connection = $db->getConnection();
 $user = new User($db);
 $validator = new Validator($db);
 
+
 $username = $_POST['username'];
 $email = $_POST['email'];
 $password = $_POST['password'];
 $profilePic = $_FILES['profile_pic'];
 
 $createdAt = $_POST['created_at'];
+$extension = pathinfo($_FILES['profile_pic']['name'], PATHINFO_EXTENSION);
+$newFilename = $username . '_' . time() . '.' . $extension;
+$destination = SAVED_DIRECTORY . $newFilename;
 
-if ($validator->validateSignup($username, $email, $password, $profilePic, $createdAt)) {
+if ($validator->validateSignup($username, $email, $password, $newFilename, $createdAt)) {
     echo "Validation passed.<br>";
 
-    $extension = pathinfo($_FILES['profile_pic']['name'], PATHINFO_EXTENSION);
-    $newFilename = $username . '_' . time() . '.' . $extension;
-    $destination = SAVED_DIRECTORY . $newFilename;
 
     if (move_uploaded_file($_FILES['profile_pic']['tmp_name'], $destination)) {
         echo "File uploaded successfully.<br>";

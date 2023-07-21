@@ -16,7 +16,7 @@ class User {
         if (mysqli_num_rows($result) == 1) {
             $user = mysqli_fetch_assoc($result);
             if (password_verify($password, $user['password'])) {
-                return $user['id'];
+                return $user;
             }
         }
 
@@ -75,7 +75,7 @@ class User {
         mysqli_query($connection, $query);
     }
 
-    public function updateProfilePic($userID, $newProfilePic) {
+    public function updateProfilePic($userID, $profilePicFilename) {
         $connection = $this->db->getConnection();
 
         $extension = pathinfo($newProfilePic, PATHINFO_EXTENSION);
@@ -83,7 +83,7 @@ class User {
         $destination = 'gallery/' . $newFilename;
         move_uploaded_file($_FILES['new_profile_pic']['tmp_name'], $destination);
         
-        $query = "UPDATE users SET profile_pic = '$newFilename' WHERE id = '$userID'";
+        $query = "UPDATE users SET profile_pic = '$profilePicFilename' WHERE id = '$userID'";
         mysqli_query($connection, $query);
     }
 

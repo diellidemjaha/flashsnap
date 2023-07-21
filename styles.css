@@ -51,12 +51,43 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
+
+  .profile ul li a {
+    color: #007bff;
+    transition: color 0.3s ease;
+    font-weight: bold;
+    border-bottom: 1px solid transparent;
+  }
+
+  .profile ul li a:hover {
+    color: #0056b3; /* Change the color on hover */
+    border-color: #007bff;
+  }
+
+  .profile ul {
+    
+    list-style-type: none;
+    text-decoration: none!important; /* This line removes the underline */
+    margin-top: 10px;
+    padding: 10px;
+    gap: 20px;
+  }
+  
+  .profile li a {
+    text-decoration: none!important; /* This line removes the underline */
+  }
+
   ul {
     list-style-type: none;
+    text-decoration: none!important;
     margin-top: 10px;
     padding: 10px;
     gap: 20px;
 
+  }
+
+  li {
+    text-decoration: none!important;
   }
   
   .profile h1 {
@@ -80,6 +111,34 @@ body {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
+
+  .rank table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #f9f9f9; /* Add a light background color */
+    border: 1px solid #ccc; /* Add a border */
+  }
+
+  .rank table th {
+    background-color: #007bff; /* Change the background color of the table headers */
+    color: #fff; /* Set the text color of the table headers to white */
+    padding: 10px; /* Add padding to the table headers */
+  }
+
+  /* Styles for the rank page */
+.rank table tr:nth-child(even) {
+  background-color: #f2f2f2; /* Add a light background color to even rows */
+}
+
+/* Styles for the rank page */
+.rank table th,
+.rank table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center; /* Center the content within the table cells */
+}
+
   .rank img{
     min-width: 500px;
     max-width: 500px;

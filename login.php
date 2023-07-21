@@ -1,40 +1,52 @@
-<!-- login.php -->
 <?php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'database.php';
 require_once 'user.php';
-require_once 'validate.php';
 
+// Assuming you have already established a database connection
 $db = new Database('localhost', 'diellidemjaha', '33-Tea-rks@', 'flashsnapdbreal');
 $db->connect();
-$connection = $db->getConnection();
 
 $user = new User($db);
-$validator = new Validator($db);
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Retrieve form data
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    if ($validator->validateLogin($email, $password)) {
-        $userID = $user->login($email, $password);
-        if ($userID) {
-            session_start();
-            $_SESSION['user_id'] = $userID;
-            // $_SESSION['loggedin'] = true;
-            header("Location: profile.php");
-            exit();
-        }
+    $userData = $user->login($email, $password);
+
+    if ($userData) {
+        session_start();
+        $_SESSION['user_id'] = $userData['id'];
+        $_SESSION['profile_pic'] = $userData['profile_pic'];
+
+        header("Location: profile.php");
+        exit();
+    } else {
+        echo "Invalid email or password.";
     }
-    // Validate the login credentials and check against the database
-    // ...
-    echo "Invalid email or password.";
-} else {
-    header("Location index.php");
 }
-// $email = $_POST['email'];
-// $password = $_POST['password'];
-
-
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form action="" method="post">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="index.php">Sign up here</a></p>
+    </div>
+</body>
+</html>

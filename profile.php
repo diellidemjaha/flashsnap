@@ -17,16 +17,60 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+
+// if (isset($_GET['user_id'])) {
+//     $profileUserID = $_GET['user_id'];
+//     echo "Profile User ID: " . $profileUserID . "<br>";
+// } else {
+//     echo "No Profile User ID specified in the URL.<br>";
+// }
+
+// Debugging: Check the logged-in user ID
+// session_start();
+// if (isset($_SESSION['user_id'])) {
+//     $loggedInUserID = $_SESSION['user_id'];
+//     echo "Logged-In User ID: " . $loggedInUserID . "<br>";
+// } else {
+//     echo "No Logged-In User ID found in the session.<br>";
+// }
+?>
+<?php
+
+//
 $userID = $_SESSION['user_id'];
 $userObj = new User($db);
 
-// Fetch user information
+// Fetch the user ID from the URL if it exists
+// $profileUserID = $_GET['user_id'] ?? $_SESSION['user_id'];
+
+// Fetch user information for the specified user ID
 $query = "SELECT * FROM users WHERE id = '$userID'";
 $userResult = mysqli_query($connection, $query);
+
+
+// Fetch user information
+// $query = "SELECT * FROM users WHERE id = '$userID'";
+// $userResult = mysqli_query($connection, $query);
 
 if (!$userResult) {
     die("Query failed: " . mysqli_error($connection));
 }
+
+if (mysqli_num_rows($userResult) > 0) {
+    $userData = mysqli_fetch_assoc($userResult);
+    $profilePicFilename = $userData['profile_pic'];
+    $usernameofuser = $userData['username'];
+} else {
+    die("No user data found.");
+}
+
+$userData = mysqli_fetch_assoc($userResult);
+
+// Debug output to check if user data is fetched correctly
+// var_dump($userData);
+
+$userData = mysqli_fetch_assoc($userResult);
+// $profilePicFilename = $userData['profile_pic'];
 
 $userData = mysqli_fetch_assoc($userResult);
 
@@ -64,20 +108,37 @@ while ($photo = mysqli_fetch_assoc($winningPhotosResult)) {
 </head>
 <body>
     <div class="profile">
-        <!-- ... (other profile content) ... -->
+      
 
-        <h1>Welcome, <?php echo $userData['username']; ?></h1>
+        <h1>Welcome, <?php echo $usernameofuser; ?></h1>
         <?php
         // Construct the image URL
-        $profilePicURL = 'gallery/' . ($newProfilePicFilename ?? $profilePicFilename);
+        // Construct the image URL
+
+//         var_dump($newProfilePicFilename);
+// var_dump($profilePicFilename);
+$profilePicURL = 'gallery/' . (isset($newProfilePicFilename) ? $newProfilePicFilename : $profilePicFilename);
+$winningPhotosDirectory = 'winning_photos/';
+// var_dump($profilePicURL);
         // var_dump($profilePicURL);
         ?>
         <img src="<?php echo $profilePicURL; ?>" alt="Profile Picture" />
         <h2>Your Winning Photos</h2>
-        <?php foreach ($winningPhotoFilenames as $filename) { ?>
+        <?php foreach ($winningPhotoFilenames as $filename) { 
+
+$imageFilename = $filename; 
+$new_directory = explode("/", $imageFilename);
+$imagePath = $winningPhotosDirectory . $new_directory[1];
+?>
+<div>
+    <!-- Display winning photos -->
+  <!--  -->
+    <img src="<?php echo $imagePath; ?>" /> 
+
+
             <div>
                 <!-- Display winning photos -->
-                <img src="gallery/<?php echo $filename; ?>" /> 
+                <img src=<?php echo $imagePath; ?>" /> 
                 <!-- You can also display the contest subject here if needed -->
             </div>
         <?php } ?>
