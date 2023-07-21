@@ -131,21 +131,20 @@ $new_directory = explode("/", $imageFilename);
 $imagePath = $winningPhotosDirectory . $new_directory[1];
 ?>
 <div>
-    <!-- Display winning photos -->
-  <!--  -->
-    <img src="<?php echo $imagePath; ?>" /> 
+    <!-- Display winning photos
 
 
             <div>
-                <!-- Display winning photos -->
-                <img src=<?php echo $imagePath; ?>" /> 
+                 Display winning photos -->
+                 <?php echo "<h2>test</h2>"; ?>
+                <img src="<?php echo $imagePath; ?>" /> 
                 <!-- You can also display the contest subject here if needed -->
             </div>
         <?php } ?>
 
         <h2>Navigation</h2>
         <ul>
-            <li><a href="profile.php">Profile</a></li>
+            <li><a href="feed.php">Flash Time Feed</a></li>
             <li><a href="upload_photo.php">Submit a Flash Time</a></li>
             <li><a href="vote.php">Vote</a></li>
             <li><a href="rank.php">Rank</a></li>

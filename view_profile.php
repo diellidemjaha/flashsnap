@@ -34,7 +34,7 @@ if (isset($_GET['user_id'])) {
                            FROM photos
                            INNER JOIN subjects ON subjects.id = photos.subject_id
                            INNER JOIN votes ON votes.photo_id = photos.id
-                           WHERE photos.user_id = '$profileUserID' AND votes.is_winner = 1";
+                           WHERE photos.user_id = '$profileUserID' AND votes.is_winner = 1 AND photos.subject_id = subjects.id LIMIT 1";
     $winningPhotosResult = mysqli_query($connection, $winningPhotosQuery);
 
     if (!$winningPhotosResult) {

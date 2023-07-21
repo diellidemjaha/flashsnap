@@ -14,9 +14,11 @@ $subjectResult = mysqli_query($connection, $query);
 $subject = mysqli_fetch_assoc($subjectResult);
 
 // Check if a subject is available
-if (!$subject) {
+if (!$subject) { ?>
+   
+   <?php echo '<h2>No Current Subject for Voting, Check back later!</h2>';
     die("No current subject available.");
-}
+ } ?>  <?php
 
 // Check if the user has reached the maximum limit of votes
 $userID = $_SESSION['user_id'];
@@ -26,6 +28,7 @@ $voteCountData = mysqli_fetch_assoc($voteCountResult);
 $voteCount = $voteCountData['vote_count'];
 
 if ($voteCount >= 10) {
+    echo "<h2>Maximum Vote Limit reached.</h2> \n";
     echo "<a href='profile.php'>Go to Your Profile</a><br> \n";
     die("You have reached the maximum limit of 10 votes.");
 }

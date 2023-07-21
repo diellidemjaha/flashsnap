@@ -23,7 +23,7 @@ body {
   input[type="email"],
   input[type="password"] {
     display: block;
-    width: 100%;
+    width: 40%;
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -50,6 +50,15 @@ body {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
+
+  .subject-check-back {
+      text-align: center;
+      max-width: 800px;
+      margin: 100px auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
 
   .profile ul li a {
@@ -171,6 +180,103 @@ body {
     padding: 10px;
     border: 1px solid #ccc;
     text-align: center;
+  }
+
+  /* Feed styles */
+  .feed {
+    text-align: center;
+    width: 100%;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .feed table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #f9f9f9; /* Add a light background color */
+    border: 1px solid #ccc; /* Add a border */
+  }
+
+  .feed table th {
+    background-color: #007bff; /* Change the background color of the table headers */
+    color: #fff; /* Set the text color of the table headers to white */
+    padding: 10px; /* Add padding to the table headers */
+  }
+
+  /* Styles for the rank page */
+.feed table tr:nth-child(even) {
+  background-color: #f2f2f2; /* Add a light background color to even rows */
+}
+
+/* Styles for the rank page */
+.feed table th,
+.feed table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center; /* Center the content within the table cells */
+}
+
+  .feed img{
+    min-width: 500px;
+    max-width: 500px;
+  }
+  @media only screen and (max-width: 600px) {
+    .rank img{
+      min-width: 200px;
+      max-width: 200px;
+    }
+    .feed {
+      width: 100%;
+      margin: 100px auto;
+      padding:10px;
+    }
+  }
+    
+  .feed h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .feed table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .feed table th,
+  .feed table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+
+  /* List of Feed Styles */
+  .feed ul li a {
+    color: #007bff;
+    transition: color 0.3s ease;
+    font-weight: bold;
+    border-bottom: 1px solid transparent;
+  }
+
+  .feed ul li a:hover {
+    color: #0056b3; /* Change the color on hover */
+    border-color: #007bff;
+  }
+
+  .feed ul {
+    
+    list-style-type: none;
+    text-decoration: none!important; /* This line removes the underline */
+    margin-top: 10px;
+    padding: 10px;
+    gap: 20px;
+  }
+  
+  .feed li a {
+    text-decoration: none!important; /* This line removes the underline */
   }
   
   /* Styles for the upload_photo page */
