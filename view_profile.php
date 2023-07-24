@@ -29,24 +29,28 @@ if (isset($_GET['user_id'])) {
         die("No user data found.");
     }
 
-    // Fetch winning photo filenames for the specified user ID
-    $winningPhotosQuery = "SELECT photos.image, subjects.contest_subject 
-                           FROM photos
-                           INNER JOIN subjects ON subjects.id = photos.subject_id
-                           INNER JOIN votes ON votes.photo_id = photos.id
-                           WHERE photos.user_id = '$profileUserID' AND votes.is_winner = 1 AND photos.subject_id = subjects.id LIMIT 1";
+    // Fetch winning photos for the specified user ID
+    $winningPhotosQuery = "SELECT wp.photo_data, wp.subject, u.username, u.id AS user_id
+                           FROM winning_photos wp
+                           INNER JOIN users u ON u.id = wp.user_id
+                           WHERE wp.user_id = '$profileUserID'";
     $winningPhotosResult = mysqli_query($connection, $winningPhotosQuery);
 
     if (!$winningPhotosResult) {
         die("Query failed: " . mysqli_error($connection));
     }
 
-    // Create an array to store winning photo filenames
-    $winningPhotoFilenames = array();
+    // Create an array to store winning photo data
+    $winningPhotoData = array();
 
     while ($photo = mysqli_fetch_assoc($winningPhotosResult)) {
-        // Save the filenames in the array
-        $winningPhotoFilenames[] = $photo['image'];
+        // Save the photo data in the array
+        $winningPhotoData[] = array(
+            'photo_data' => $photo['photo_data'],
+            'subject' => $photo['subject'],
+            'username' => $photo['username'],
+            'user_id' => $photo['user_id']
+        );
     }
 } else {
     // If the user_id parameter is not present, redirect to feed.php or any other page as needed
@@ -67,21 +71,17 @@ if (isset($_GET['user_id'])) {
         <?php
         // Construct the image URL
         $profilePicURL = 'gallery/' . $profilePicFilename;
-        $winningPhotosDirectory = 'winning_photos/';
         ?>
         <img src="<?php echo $profilePicURL; ?>" alt="Profile Picture" />
         <h2>Winning Photos</h2>
-        <?php foreach ($winningPhotoFilenames as $filename) { 
-
-            $imageFilename = $filename; 
-            $new_directory = explode("/", $imageFilename);
-            $imagePath = $winningPhotosDirectory . $new_directory[1];
-            ?>
+        <?php foreach ($winningPhotoData as $photoData) { ?>
             <div>
                 <!-- Display winning photos -->
-              <!--  -->
-                <img src="<?php echo $imagePath; ?>" /> 
-                <!-- You can also display the contest subject here if needed -->
+                <a href="view_profile.php?user_id=<?php echo $photoData['user_id']; ?>">
+                    <img src="data:image/jpeg;base64,<?php echo $photoData['photo_data']; ?>" alt="Winning Photo" />
+                </a>
+                <!-- Display the subject of the winning photo here -->
+                <p>Subject: <?php echo $photoData['subject']; ?></p>
             </div>
         <?php } ?>
     </div>

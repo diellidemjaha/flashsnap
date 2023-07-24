@@ -1,35 +1,32 @@
 <?php
 require_once 'database.php';
-require_once 'user.php';
-require_once 'validate.php';
 
 $db = new Database('localhost', 'diellidemjaha', '33-Tea-rks@', 'flashsnapdbreal');
 $db->connect();
 $connection = $db->getConnection();
 
-$user = new User($db);
-$validator = new Validator($db);
-define("SAVED_DIRECTORY", "gallery/");
+// Fetch all the winning photos with corresponding subject and username
+$winningPhotosQuery = "SELECT wp.photo_data, wp.subject, u.username, u.id AS user_id
+                       FROM winning_photos wp
+                       INNER JOIN users u ON u.id = wp.user_id";
+$winningPhotosResult = mysqli_query($connection, $winningPhotosQuery);
 
-//
-
-//
-$winningPhotosDirectory = 'winning_photos/';
-
-
-// Fetch the winners' data from the database
-$winnersQuery = "SELECT users.id AS user_id, users.username, photos.image 
-                FROM users
-                INNER JOIN photos ON users.id = photos.user_id
-                INNER JOIN votes ON photos.id = votes.photo_id
-                WHERE votes.is_winner = 1 LIMIT 1";
-$winnersResult = mysqli_query($connection, $winnersQuery);
-
-if (!$winnersResult) {
+if (!$winningPhotosResult) {
     die("Query failed: " . mysqli_error($connection));
 }
 
-$winners = mysqli_fetch_all($winnersResult, MYSQLI_ASSOC);
+// Create an array to store winning photo data
+$winningPhotoData = array();
+
+while ($photo = mysqli_fetch_assoc($winningPhotosResult)) {
+    // Save the photo data in the array
+    $winningPhotoData[] = array(
+        'photo_data' => $photo['photo_data'],
+        'subject' => $photo['subject'],
+        'username' => $photo['username'],
+        'user_id' => $photo['user_id']
+    );
+}
 ?>
 
 <!DOCTYPE html>
@@ -40,44 +37,18 @@ $winners = mysqli_fetch_all($winnersResult, MYSQLI_ASSOC);
 </head>
 <body>
     <div class="feed">
-        <h1>Flash Time Feed</h1>
-<?php if (!$winners) {
-    echo "<h2>No Current winners. Check Back Later</h2> \n";
-} else { ?>
-
-    <h2>Winners</h2>
-    <?php foreach ($winners as $winner) { 
-        $imageFilename = $winner['image']; 
-        $new_directory = explode("/", $imageFilename);
-        $imagePath = $winningPhotosDirectory . $new_directory[1]
-        
-        
-    // if (file_exists($winningPhotosDirectory . $new_directory[1]))
-    //     continue;
-    
-    
-    ?>
-    <div>
-    <a href="view_profile.php?user_id=<?php echo $winner['user_id']; ?>">
-    <?php echo $winner['username']; ?>
-    </a>
-    <img height="200" length="auto" src="<?php echo $imagePath; ?>"/>
+        <h1>Flash Time Winning Photos</h1>
+        <?php foreach ($winningPhotoData as $photoData) { ?>
+            <div>
+                <!-- Display winning photos -->
+                <a href="view_profile.php?user_id=<?php echo $photoData['user_id']; ?>">
+                    <img src="data:image/jpeg;base64,<?php echo $photoData['photo_data']; ?>" alt="Winning Photo" />
+                </a>
+                <!-- Display the contest subject and username here -->
+                <p>Subject: <?php echo $photoData['subject']; ?></p>
+                <p>Username: <?php echo $photoData['username']; ?></p>
+            </div>
+        <?php } ?>
     </div>
-    <?php } ?>
-    <?php } ?>
-    
-    <h2>Navigation</h2>
-    <ul>
-    <li><a href="profile.php">Profile</a></li>
-    <li><a href="upload_photo.php">Submit a Flash Time</a></li>
-    <li><a href="vote.php">Vote</a></li>
-    <li><a href="rank.php">Rank</a></li>
-    </ul>
-    
-    <form action="logout.php" method="post">
-    <button type="submit">Logout</button>
-    </form>
-    </div>
-    </body>
-    </html>
-    
+</body>
+</html>
