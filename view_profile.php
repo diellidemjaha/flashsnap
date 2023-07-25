@@ -66,6 +66,7 @@ if (isset($_GET['user_id'])) {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<?php include("header.php"); ?>
     <div class="profile">
         <h1>Welcome to <?php echo $usernameofuser; ?>'s Profile</h1>
         <?php

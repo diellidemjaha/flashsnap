@@ -150,7 +150,7 @@ body {
   }
 
   .rank table th {
-    background-color: #007bff; /* Change the background color of the table headers */
+    background-color: black; /* Change the background color of the table headers */
     color: #fff; /* Set the text color of the table headers to white */
     padding: 10px; /* Add padding to the table headers */
   }
@@ -231,7 +231,7 @@ body {
     border:none; /* Add a border */
   }
    .feed_title{
-    background-color: #007bff; /* Add a light background color */
+    background-color: black; /* Add a light background color */
     color: white;
     padding: 20px;
     border-radius: 18px;
