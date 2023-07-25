@@ -80,11 +80,7 @@ $newProfilePicFilename = $_SESSION['profile_pic'] ?? null;
 // var_dump($newProfilePicFilename);
 
 // Fetch winning photo filenames
-$winningPhotosQuery = "SELECT photos.image, subjects.contest_subject 
-                       FROM photos
-                       INNER JOIN subjects ON subjects.id = photos.subject_id
-                       INNER JOIN votes ON votes.photo_id = photos.id
-                       WHERE photos.user_id = '$userID' AND votes.is_winner = 1";
+$winningPhotosQuery = "SELECT photo_data, subject FROM winning_photos WHERE user_id = '$userID'";
 $winningPhotosResult = mysqli_query($connection, $winningPhotosQuery);
 
 if (!$winningPhotosResult) {
@@ -96,8 +92,19 @@ $winningPhotoFilenames = array();
 
 while ($photo = mysqli_fetch_assoc($winningPhotosResult)) {
     // Save the filenames in the array
-    $winningPhotoFilenames[] = $photo['image'];
+     // Save the photo data in the array
+     $winningPhotoFilenames[] = array(
+        'photo_data' => $photo['photo_data'],
+        'subject' => $photo['subject'],
+        // 'username' => $photo['username'],
+        // 'user_id' => $photo['user_id']
+    );
 }
+//  else {
+// // If the user_id parameter is not present, redirect to feed.php or any other page as needed
+// header("Location: feed.php");
+// exit();
+// }
 ?>
 
 <!DOCTYPE html>
@@ -107,8 +114,8 @@ while ($photo = mysqli_fetch_assoc($winningPhotosResult)) {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <?php include("header.php"); ?>
     <div class="profile">
-      
 
         <h1>Welcome, <?php echo $usernameofuser; ?></h1>
         <?php
@@ -124,21 +131,13 @@ $winningPhotosDirectory = 'winning_photos/';
         ?>
         <img src="<?php echo $profilePicURL; ?>" alt="Profile Picture" />
         <h2>Your Winning Photos</h2>
-        <?php foreach ($winningPhotoFilenames as $filename) { 
-
-$imageFilename = $filename; 
-$new_directory = explode("/", $imageFilename);
-$imagePath = $winningPhotosDirectory . $new_directory[1];
-?>
-<div>
-    <!-- Display winning photos
-
-
+     
+        <?php foreach ($winningPhotoFilenames as $photoData) { ?>
             <div>
-                 Display winning photos -->
-                 <?php echo "<h2>test</h2>"; ?>
-                <img src="<?php echo $imagePath; ?>" /> 
-                <!-- You can also display the contest subject here if needed -->
+                <!-- Display winning photos -->
+                    <img src="data:image/jpeg;base64,<?php echo $photoData['photo_data']; ?>" alt="Winning Photo" />
+                <!-- Display the subject of the winning photo here -->
+                <p>Subject: <?php echo $photoData['subject']; ?></p>
             </div>
         <?php } ?>
 

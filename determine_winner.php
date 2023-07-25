@@ -35,51 +35,61 @@ while ($subject = mysqli_fetch_assoc($subjectIDsResult)) {
         if ($photoDataResult && mysqli_num_rows($photoDataResult) > 0) {
             $filenameData = mysqli_fetch_assoc($photoDataResult);
             $imageFileName = $filenameData['image'];
-             $winningPhotosDirectory = 'flashsnaps/';
-            // $imageFilename = $imagePath; 
-            
+            $winningPhotosDirectory = 'flashsnaps/';
+
+            // Construct the final image file path
             $new_directory = explode("/", $imageFileName);
-            $imagePathFinal = $winningPhotosDirectory . $new_directory[1];
-            $imagePathFinalisation = urldecode($imagePathFinal);
-
-
-
+            $decodedImageFileName = str_replace('%20', ' ', $new_directory[1]);
+            $imagePath = $winningPhotosDirectory . $decodedImageFileName;
+            // var_dump($imagePath);
             // Check if the file exists before attempting to read it
-            if (file_exists($imagePathFinalisation)) {
+            if (file_exists($imagePath)) {
                 // Read the image file and convert it to base64
-                $temp = file_get_contents($imagePathFinalisation);
-                $blob = base64_encode($temp);
+                $image_base64 = base64_encode(file_get_contents($imagePath));
+                $image_data = 'data:image/jpeg;base64,' . $image_base64;
+                // var_dump($image_base64);
+                    // Get the user ID who posted the most voted photo
+                    $userIDQuery = "SELECT user_id FROM photos WHERE id = '$mostVotedPhotoID'";
+                    $userIDResult = mysqli_query($connection, $userIDQuery);
 
-                // Get the user ID who posted the most voted photo
-                $userIDQuery = "SELECT user_id FROM photos WHERE id = '$mostVotedPhotoID'";
-                $userIDResult = mysqli_query($connection, $userIDQuery);
+                    if ($userIDResult && mysqli_num_rows($userIDResult) > 0) {
+                        $userID = mysqli_fetch_assoc($userIDResult)['user_id'];
 
-                if ($userIDResult && mysqli_num_rows($userIDResult) > 0) {
-                    $userID = mysqli_fetch_assoc($userIDResult)['user_id'];
+                        // Fetch the subject from the subjects table
+                        $subjectQuery = "SELECT contest_subject FROM subjects WHERE id = '$subjectID'";
+                        $subjectResult = mysqli_query($connection, $subjectQuery);
+                        $subjectData = mysqli_fetch_assoc($subjectResult);
+                        $subject = $subjectData['contest_subject'];
 
-                    // Fetch the subject from the subjects table
-                    $subjectQuery = "SELECT contest_subject FROM subjects WHERE id = '$subjectID'";
-                    $subjectResult = mysqli_query($connection, $subjectQuery);
-                    $subjectData = mysqli_fetch_assoc($subjectResult);
-                    $subject = $subjectData['contest_subject'];
+                        // Fetch the username from the users table
+                        $usernameQuery = "SELECT username FROM users WHERE id = '$userID'";
+                        $usernameResult = mysqli_query($connection, $usernameQuery);
+                        $usernameData = mysqli_fetch_assoc($usernameResult);
+                        $username = $usernameData['username'];
 
-                    // Fetch the username from the users table
-                    $usernameQuery = "SELECT username FROM users WHERE id = '$userID'";
-                    $usernameResult = mysqli_query($connection, $usernameQuery);
-                    $usernameData = mysqli_fetch_assoc($usernameResult);
-                    $username = $usernameData['username'];
-
-                    // Insert the winning photo into the winning_photos table
-                    $insertQuery = "INSERT INTO winning_photos (subject, username, user_id, photo_id, photo_data) 
-                                    VALUES ('$subject', '$username', '$userID', '$mostVotedPhotoID', '$blob')";
-                    mysqli_query($connection, $insertQuery);
+                        // Insert the winning photo into the winning_photos table
+                        $insertQuery = "INSERT INTO winning_photos (subject, username, user_id, photo_id, photo_data) 
+                        VALUES ('$subject', '$username', '$userID', '$mostVotedPhotoID', '$image_base64')";
+        
+        if (mysqli_query($connection, $insertQuery)) {
+            echo "Insertion successful!";
+        } else {
+            echo "Error: " . mysqli_error($connection);
+        }
+                    } else {
+                        echo "Failed to get user ID for photo ID: $mostVotedPhotoID";
+                    }
+                } else {
+                    echo "Failed to read the image file: $imagePath";
                 }
             } else {
                 echo "Image file not found: $imagePath";
             }
-        }
-    }
-}
+        } else {
+            echo "No result found for the given photo ID: $mostVotedPhotoID";
+        }}
+    // } else {
+    //     echo "No result found for the given subject ID: $subjectID";
+    // }
 
 echo "Winners determined and photos inserted into winning_photos table successfully.";
-?>

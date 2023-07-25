@@ -51,6 +51,11 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
+  .profile p {
+    color:#0056b3;
+    font-weight: bold;
+  }
+
   .subject-check-back {
       text-align: center;
       max-width: 800px;
@@ -96,6 +101,21 @@ body {
   }
 
   li {
+    text-decoration: none!important;
+  }
+
+  .feed_body {
+    margin-top: 20px;
+  }
+
+  .feed_body p {
+    color: #0056b3;
+  }
+  .feed_body a {
+    color: black;
+    transition: color 0.3s ease;
+    font-weight: bold;
+    border-bottom: 1px solid transparent;
     text-decoration: none!important;
   }
   
@@ -191,17 +211,35 @@ body {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
+  @media only screen and (max-width: 600px) {
+    .feed img{
+      min-width: 200px;
+      max-width: 100px;
+    }
+    .feed {
+      width: 100%;
+      margin: 100px auto;
+      padding:10px;
+    }
+  }
 
   .feed table {
     width: 100%;
+    /* background-color: ; */
     border-collapse: collapse;
     margin-top: 20px;
-    background-color: #f9f9f9; /* Add a light background color */
-    border: 1px solid #ccc; /* Add a border */
+    border:none; /* Add a border */
   }
-
+   .feed_title{
+    background-color: #007bff; /* Add a light background color */
+    color: white;
+    padding: 20px;
+    border-radius: 18px;
+  
+  }
   .feed table th {
-    background-color: #007bff; /* Change the background color of the table headers */
+    text-align: center;
+     /* Change the background color of the table headers */
     color: #fff; /* Set the text color of the table headers to white */
     padding: 10px; /* Add padding to the table headers */
   }
@@ -218,6 +256,7 @@ body {
   border: 1px solid #ccc;
   text-align: center; /* Center the content within the table cells */
 }
+
 
   .feed img{
     min-width: 500px;
@@ -237,7 +276,7 @@ body {
     
   .feed h1 {
     text-align: center;
-    color: #333;
+    color: whitesmoke;
   }
   
   .feed table {
@@ -264,6 +303,7 @@ body {
   .feed ul li a:hover {
     color: #0056b3; /* Change the color on hover */
     border-color: #007bff;
+
   }
 
   .feed ul {

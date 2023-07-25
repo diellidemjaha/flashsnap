@@ -39,6 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <?php
+    include("header.php"); ?>
     <div class="container">
         <h1>Login</h1>
         <form action="" method="post">

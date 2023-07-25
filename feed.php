@@ -31,24 +31,33 @@ while ($photo = mysqli_fetch_assoc($winningPhotosResult)) {
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Feed</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
+<?php include("header.php"); ?>
     <div class="feed">
-        <h1>Flash Time Winning Photos</h1>
-        <?php foreach ($winningPhotoData as $photoData) { ?>
-            <div>
-                <!-- Display winning photos -->
-                <a href="view_profile.php?user_id=<?php echo $photoData['user_id']; ?>">
-                    <img src="data:image/jpeg;base64,<?php echo $photoData['photo_data']; ?>" alt="Winning Photo" />
-                </a>
-                <!-- Display the contest subject and username here -->
-                <p>Subject: <?php echo $photoData['subject']; ?></p>
-                <p>Username: <?php echo $photoData['username']; ?></p>
+            <div class="feed_title">
+
+                <h1>Flash Time Winning Photos</h1>
             </div>
-        <?php } ?>
+            <?php foreach ($winningPhotoData as $photoData) { ?>
+                <div class="feed_body">
+                    <!-- Display winning photos -->
+                  
+                            <a href="view_profile.php?user_id=<?php echo $photoData['user_id']; ?>">
+                            <img src="data:image/jpeg;base64,<?php echo $photoData['photo_data']; ?>" alt="Winning Photo" />
+                            </a>
+                        <!-- Display the contest subject and username here -->
+                            <p>Won the Subject: <?php echo $photoData['subject']; ?></p>
+                            <p>Username:<a href="view_profile.php?user_id=<?php echo $photoData['user_id']; ?>"> <?php echo $photoData['username']; ?></a></p>
+                     
+                </div>
+                <?php } ?>
     </div>
 </body>
+
 </html>

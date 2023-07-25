@@ -45,6 +45,7 @@ $subjectData = mysqli_fetch_assoc($subject_result);
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<?php include("header.php"); ?>
     <div class="rank">
 
 
