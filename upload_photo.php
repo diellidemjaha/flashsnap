@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Upload Photo</title>
+    <title>Submit a Flash Time</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>

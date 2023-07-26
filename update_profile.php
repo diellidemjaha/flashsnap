@@ -9,7 +9,7 @@ $db->connect();
 $connection = $db->getConnection();
 
 $user = new User($db);
-$validator = new Validator($db);
+$validator = new Validator($db, $user);
 
 session_start();
 $userID = $_SESSION['user_id'];
@@ -57,16 +57,19 @@ if (isset($_POST['submit'])) {
 </head>
 <body>
     <div class="profile">
-        <h1>Update Profile</h1>
-        <form action="update_profile.php" method="post" enctype="multipart/form-data">
-            <label for="new_username">New Username:</label>
-            <input type="text" name="new_username" id="new_username"><br>
-            <label for="new_password">New Password:</label>
-            <input type="password" name="new_password" id="new_password"><br>
-            <label for="new_profile_pic">New Profile Picture:</label>
-            <input type="file" name="new_profile_pic" id="new_profile_pic"><br><br><br>
-            <input type="submit" name="submit" class="submit-button" value="Update">
-        </form>
+        <center>
+
+            <h1>Update Profile</h1>
+            <form action="update_profile.php" method="post" enctype="multipart/form-data">
+                <label for="new_username">New Username:</label>
+                <input type="text" name="new_username" id="new_username"><br>
+                <label for="new_password">New Password:</label>
+                <input type="password" name="new_password" id="new_password"><br>
+                <label for="new_profile_pic">New Profile Picture:</label>
+                <input type="file" name="new_profile_pic" id="new_profile_pic"><br><br><br>
+                <input type="submit" name="submit" class="submit-button" value="Update">
+            </form>
+        </center>
     </div>
 </body>
 </html>

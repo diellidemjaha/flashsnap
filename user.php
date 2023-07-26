@@ -101,6 +101,17 @@ class User {
         return $userData['profile_pic'];
     }
 
+    public function emailExists($email) {
+        $connection = $this->db->getConnection();
+
+        $query = "SELECT id FROM users WHERE email = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+        return $stmt->num_rows > 0;
+    }
+
 }
 
 ?>

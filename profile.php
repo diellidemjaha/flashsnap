@@ -8,7 +8,7 @@ $db->connect();
 $connection = $db->getConnection();
 
 $user = new User($db);
-$validator = new Validator($db);
+$validator = new Validator($db, $user);
 define("SAVED_DIRECTORY", "gallery/");
 // ...
 session_start();

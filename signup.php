@@ -15,8 +15,10 @@ $db = new Database('localhost', 'diellidemjaha', '33-Tea-rks@', 'flashsnapdbreal
 $db->connect();
 $connection = $db->getConnection();
 
-$user = new User($db);
-$validator = new Validator($db);
+$user = $db->getUser();
+$validator = new Validator($db, $user);
+// $validator = new Validator($db, $user);
+
 
 
 $username = $_POST['username'];
@@ -29,7 +31,7 @@ $extension = pathinfo($_FILES['profile_pic']['name'], PATHINFO_EXTENSION);
 $newFilename = $username . '_' . time() . '.' . $extension;
 $destination = SAVED_DIRECTORY . $newFilename;
 
-if ($validator->validateSignup($username, $email, $password, $newFilename, $createdAt)) {
+if ($validator->validateSignup($username, $email, $password, $newFilename, $createdAt, $user)) {
     echo "Validation passed.<br>";
 
 

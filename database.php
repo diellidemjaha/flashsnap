@@ -1,5 +1,6 @@
 <!-- database.php -->
 <?php
+require_once 'user.php';
 
 class Database {
     private $host;
@@ -7,6 +8,7 @@ class Database {
     private $password;
     private $database;
     private $connection;
+    private $user;
 
 
 
@@ -15,6 +17,7 @@ class Database {
         $this->username = $username;
         $this->password = $password;
         $this->database = $database;
+        $this->user = new User($this);
     }
 
     public function connect() {
@@ -26,6 +29,14 @@ class Database {
 
     public function getConnection() {
         return $this->connection;
+    }
+
+    public function getUser() {
+        return new User($this);
+        
+    }
+    public function prepare($query) {
+        return $this->connection->prepare($query);
     }
 }
 

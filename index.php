@@ -45,6 +45,7 @@ session_start();
     <input type="text" name="username" placeholder="Username" required><br>
     <input type="email" name="email" placeholder="Email" required><br>
     <input type="password" name="password" placeholder="Password" required><br>
+    <label for="profile_pic"><b>Upload your profile picture:</b></label>
     <input type="file" name="profile_pic" required><br>
     <input type="hidden" name="created_at" value="<?php echo date('Y-m-d H:i:s'); ?>">
     <br><br><input type="submit" class="submit-button" value="Sign Up">

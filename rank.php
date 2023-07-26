@@ -9,7 +9,7 @@ $db->connect();
 $connection = $db->getConnection();
 
 $user = new User($db);
-$validator = new Validator($db);
+$validator = new Validator($db, $user);
 //
 
 $query = "SELECT photos.*, COUNT(votes.id) AS vote_count FROM photos
